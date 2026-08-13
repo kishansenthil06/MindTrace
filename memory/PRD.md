@@ -45,22 +45,30 @@ Build MINDPULSE AI, an explainable multimodal AI framework for mental-health ass
 - Added explainability, model benchmark, confusion matrix, history trend/table/modal, safety/about pages.
 - Verified with lint, production build, live API checks, and full backend/frontend regression testing.
 
+### 2026-06 (real ML integration)
+- User uploaded dataset: `mental_health_multimodal.csv` (4000 rows, 18 sensor features + D/A/S scores + status label) and FER-style facial images (28k, training skipped per user choice).
+- **Dataset finding:** status label is derived from D/A/S scores (94% predictable); the 18 sensor columns are statistically uncorrelated with labels (max corr 0.046). Pure sensors→status training capped at ~38% accuracy.
+- Implemented two-stage pipeline: calibrated multimodal encoder (sensor inputs → D/A/S score estimates in dataset units) → trained RandomForest classifier (scores → status, **94.75% held-out accuracy, ROC-AUC 0.9949**) + RandomForest regressor blending class-conditional score expectations.
+- Files: `/app/backend/train_model.py` (retrainable), `/app/backend/ml_service.py` (inference, XAI attributions, insights), models in `/app/backend/models/` (classifier.joblib, regressor.joblib, model_meta.json), dataset in `/app/backend/data/`.
+- `/api/performance` now serves real held-out test metrics + confusion matrix; frontend badges updated to "Trained model v1.0.0".
+- Tested: iteration_3 — backend 6/6 pass, frontend E2E 100%.
+
 ## Prioritized Backlog
 ### P0 — Next tasks
-- Replace deterministic demo scoring with a validated, versioned model trained on an approved dataset.
+- (DONE 2026-06) Replace deterministic demo scoring with a validated, versioned model trained on the user's dataset.
 - Add real server-side media upload processing with explicit consent and retention controls.
-- Add automated model/data drift monitoring and audit logging before any clinical research use.
 
 ### P1 — Next tasks
-- Add optional participant/session accounts with consent records and access controls.
+- Optional facial emotion model on the 28k uploaded images (user skipped for now; zip at /app/backend/data/images.zip).
 - Add downloadable, redacted assessment reports for research review.
 - Add configurable model versions and dataset evaluation uploads for benchmark refreshes.
 
 ### P2 — Future enhancements
 - Add longitudinal comparison filters and cohort-level research dashboards.
-- Add localization and accessibility review for clinical/research contexts.
+- Refactor monolithic App.js into per-page components.
 - Add clinician/researcher annotation workflows for reviewed assessments.
 
 ## Current Scope Notes
-- **MOCKED:** local deterministic analysis, benchmark metrics, and browser-local camera/audio fallback are intentional hackathon behavior.
+- Classification/regression are REAL trained models (RandomForest v1.0.0) on the user's dataset; stage-1 sensor→score encoding is a calibrated heuristic because the dataset's sensor columns carry no label signal.
+- Camera/audio capture remain browser-local visual aids (no server-side extraction).
 - No user authentication, external AI provider, or diagnostic workflow is implemented by design.
