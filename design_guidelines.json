@@ -1,0 +1,124 @@
+{
+  "project_name": "MindTrace AI",
+  "theme_overview": "Calm + Intelligent + Premium + Trustworthy + Modern. Dark-first premium theme with deep navy/charcoal backgrounds, sophisticated blue/cyan gradient accents used sparingly, and semantic status colors.",
+  "tech_stack": {
+    "framework": "React (Create React App + craco)",
+    "styling": "Tailwind CSS",
+    "routing": "React Router",
+    "animation": "Framer Motion",
+    "icons": "Lucide React",
+    "charts": "Recharts",
+    "components": "shadcn/ui (customized via Tailwind), sonner",
+    "file_extension": ".js (No TypeScript)"
+  },
+  "colors": {
+    "background": "#0A0B10",
+    "surface": "#13151D",
+    "surface_hover": "#1C1F2B",
+    "border": "#262A38",
+    "border_light": "rgba(255,255,255,0.05)",
+    "text": {
+      "primary": "#F8FAFC",
+      "secondary": "#94A3B8",
+      "muted": "#64748B"
+    },
+    "accent": {
+      "primary": "#3B82F6",
+      "gradient": "bg-gradient-to-r from-blue-500 to-cyan-400",
+      "glow": "shadow-[0_0_30px_-5px_rgba(59,130,246,0.3)]"
+    },
+    "status": {
+      "healthy": "#10B981",
+      "mild_stress": "#EAB308",
+      "moderate_stress": "#F97316",
+      "severe_stress": "#EF4444"
+    }
+  },
+  "typography": {
+    "fonts": {
+      "heading": "Plus Jakarta Sans, sans-serif",
+      "body": "Inter, sans-serif",
+      "mono": "JetBrains Mono, monospace"
+    },
+    "scale": {
+      "h1": "text-5xl sm:text-6xl font-semibold tracking-tight leading-tight",
+      "h2": "text-3xl sm:text-4xl font-semibold tracking-tight",
+      "h3": "text-2xl font-medium",
+      "h4": "text-xl font-medium",
+      "body": "text-base leading-relaxed text-slate-300",
+      "body_small": "text-sm leading-relaxed text-slate-400",
+      "label": "text-xs font-semibold tracking-[0.1em] uppercase text-slate-400"
+    }
+  },
+  "components": {
+    "cards": "bg-[#13151D] border border-[#262A38] rounded-2xl shadow-xl shadow-black/40 overflow-hidden. Use inner padding p-6 or p-8.",
+    "buttons": {
+      "primary": "bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-full font-medium px-6 py-2.5 hover:shadow-[0_0_20px_-5px_rgba(6,182,212,0.4)] transition-all",
+      "secondary": "bg-[#1C1F2B] text-slate-200 border border-[#262A38] rounded-full font-medium px-6 py-2.5 hover:bg-[#262A38] hover:text-white transition-all",
+      "ghost": "text-slate-400 hover:text-white hover:bg-white/5 rounded-full px-4 py-2 transition-all"
+    },
+    "inputs": "bg-[#0A0B10] border border-[#262A38] rounded-xl px-4 py-3 text-white focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-all placeholder:text-slate-500",
+    "navbar": "Fixed top-0 w-full z-50 bg-[#0A0B10]/70 backdrop-blur-xl border-b border-white/5 transition-all duration-300",
+    "badges": "Inline-flex items-center rounded-full border border-[#262A38] bg-[#13151D] px-3 py-1 text-xs font-medium backdrop-blur-sm",
+    "glass_panel": "bg-[#13151D]/60 backdrop-blur-xl border border-white/10"
+  },
+  "motion": {
+    "page_transition": {
+      "initial": { "opacity": 0, "y": 8 },
+      "animate": { "opacity": 1, "y": 0 },
+      "exit": { "opacity": 0, "y": -8 },
+      "transition": { "duration": 0.3, "ease": "easeOut" }
+    },
+    "stagger": {
+      "container": { "hidden": { "opacity": 0 }, "show": { "opacity": 1, "transition": { "staggerChildren": 0.1 } } },
+      "item": { "hidden": { "opacity": 0, "y": 10 }, "show": { "opacity": 1, "y": 0, "transition": { "duration": 0.4, "ease": "easeOut" } } }
+    },
+    "micro_interactions": "Button hover lift (-translate-y-[1px]), subtle scaling (scale-95 on tap), and smooth border color fades. NEVER use dramatic swinging or spinning animations."
+  },
+  "pages": {
+    "landing": {
+      "hero": "Cinematic. Left: Copy + CTAs. Right: Abstract AI signal network (built via Framer Motion nodes or react-tsparticles, NO stock photos). Glowing badge '✦ Explainable AI for Mental Health'.",
+      "trust_section": "3 Bento-style compact cards (Multimodal, Intelligent, Explainable) fading in on scroll.",
+      "how_it_works": "Horizontal timeline with connected nodes (desktop).",
+      "product_preview": "Component-built mock of Results card floating in center with subtle glow."
+    },
+    "assessment_wizard": {
+      "layout": "Multi-step interface. Top connected step rail with active indicator. Content centered in a max-w-3xl container.",
+      "steps": "1. Facial (Webcam JPG/PNG upload), 2. Speech (MediaRecorder), 3. Self-report, 4. Behavioral, 5. Facial features, 6. Physiological, 7. Review.",
+      "transition_state": "2-4 second processing screen with staged checkmarks mapping to 'Behavioral patterns', 'Physiological indicators', etc."
+    },
+    "results": {
+      "header": "Big central card showing class name and 'x% MODEL CONFIDENCE' with a radial chart or confidence gauge.",
+      "classification_distribution": "4 horizontal animated progress bars showing real probabilities. Colored by status.",
+      "future_severity": "3 compact data cards for Depression, Anxiety, Stress scores.",
+      "explainability": "List of feature contributions sorted by impact, using +/-% metrics."
+    },
+    "dashboard": {
+      "layout": "Greeting header. 3-column top stat cards. Main bento grid: Recent Assessments on left, Quick Actions on right."
+    },
+    "profile": {
+      "layout": "Header with Avatar. Overview cards (Total, Streak). Timeline of recent activity. Placeholder empty states if no data."
+    }
+  },
+  "accessibility_and_testing": {
+    "testing": "EVERY interactive element and critical data display MUST have a kebab-case 'data-testid' attribute (e.g., 'start-assessment-btn', 'result-confidence-score').",
+    "a11y": "Use semantic HTML, maintain WCAG AA contrast for text (no gray-on-gray unreadable text), focus states via focus:ring, respect prefers-reduced-motion."
+  },
+  "universal_guidelines": [
+    "NEVER use generic full-screen gradients. Use solid deep navy with subtle radial glows for emphasis.",
+    "NEVER use pure transparent backgrounds on headers or overlays; always use bg-color with backdrop-blur.",
+    "NEVER use default Vercel/Bootstrap look. Prioritize spacing (p-8 over p-4), 1px subtle borders, and smooth font rendering.",
+    "Do not invent backend data. All components must map to the defined real API payload fields.",
+    "Keep files as .js (not .tsx) as per the project constraints. Refactor App.js into modular components.",
+    "Use framer-motion for UI interactions (dropdowns, modals, transitions) to avoid abrupt appearances."
+  ],
+  "file_structure_plan": [
+    "src/App.js - Router and global layout shell",
+    "src/pages/Home.js, Dashboard.js, Profile.js, Assessment.js, Results.js, Explainability.js, History.js, Insights.js",
+    "src/components/layout/Navbar.js, Footer.js, PageTransition.js",
+    "src/components/assessment/CapturePanel.js, StepIndicator.js, AnalysisTransition.js",
+    "src/components/ui/ - Shadcn customized components (button.js, card.js, etc.)",
+    "src/lib/api.js - API consumption logic",
+    "src/lib/utils.js - Tailwind merge utility"
+  ]
+}

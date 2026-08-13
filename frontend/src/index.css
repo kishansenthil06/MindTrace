@@ -1,8 +1,121 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-html { background: #080d16; }
-body { margin: 0; -webkit-font-smoothing: antialiased; }
-button, input { font: inherit; }
-::selection { background: rgba(0, 229, 255, .28); color: #fff; }
+:root {
+  --bg: #0a0b10;
+  --surface: #13151d;
+  --line: #262a38;
+}
+
+html { background: var(--bg); }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: #f8fafc;
+  font-family: Inter, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, .font-display { font-family: "Plus Jakarta Sans", sans-serif; }
+.font-mono, code { font-family: "JetBrains Mono", monospace; }
+button, input, select { font: inherit; }
+::selection { background: rgba(34, 211, 238, 0.25); }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: #0a0b10; }
+::-webkit-scrollbar-thumb { background: #262a38; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+@layer components {
+  .mt-card {
+    @apply bg-[#13151D] border border-[#262A38] rounded-2xl shadow-xl shadow-black/40;
+  }
+  .mt-card-hover {
+    @apply transition-colors duration-300 hover:border-[#38415a] hover:bg-[#171a24];
+  }
+  .glass {
+    @apply bg-[#13151D]/70 backdrop-blur-xl border border-white/10;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full font-medium text-sm px-5 py-2.5
+      transition-all duration-200 active:scale-[.98] disabled:opacity-50 disabled:pointer-events-none
+      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/70 focus-visible:ring-offset-2
+      focus-visible:ring-offset-[#0A0B10];
+  }
+  .btn-primary {
+    @apply btn bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg shadow-blue-900/30
+      hover:-translate-y-[1px] hover:shadow-[0_10px_30px_-10px_rgba(6,182,212,.55)];
+  }
+  .btn-secondary {
+    @apply btn bg-[#1C1F2B] text-slate-200 border border-[#262A38] hover:bg-[#262A38] hover:text-white;
+  }
+  .btn-ghost {
+    @apply btn text-slate-400 hover:text-white hover:bg-white/5;
+  }
+  .btn-danger {
+    @apply btn bg-red-500/90 text-white hover:bg-red-500;
+  }
+  .mt-input {
+    @apply w-full bg-[#0A0B10] border border-[#262A38] rounded-xl px-4 py-3 text-sm text-white
+      transition-all placeholder:text-slate-500 focus:border-cyan-500/70 focus:ring-1 focus:ring-cyan-500/40
+      focus:outline-none;
+  }
+  .label-xs {
+    @apply text-[11px] font-semibold tracking-[0.14em] uppercase text-slate-400;
+  }
+  .link-quiet {
+    @apply text-slate-400 transition-colors hover:text-white focus-visible:outline-none focus-visible:text-white;
+  }
+}
+
+.radial-glow {
+  background-image: radial-gradient(60% 60% at 50% 0%, rgba(59, 130, 246, 0.16) 0%, rgba(10, 11, 16, 0) 70%);
+}
+.grid-lines {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: #262a38;
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #22d3ee);
+  border: 2px solid #0a0b10;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+input[type="range"]::-webkit-slider-thumb:hover { box-shadow: 0 0 0 5px rgba(34, 211, 238, 0.22); }
+input[type="range"]::-moz-range-thumb {
+  height: 14px;
+  width: 14px;
+  border-radius: 50%;
+  background: #22d3ee;
+  border: 2px solid #0a0b10;
+  cursor: pointer;
+}
+
+audio { color-scheme: dark; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
