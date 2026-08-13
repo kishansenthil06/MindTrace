@@ -74,6 +74,13 @@ Build MINDPULSE AI, an explainable multimodal AI framework for mental-health ass
 - Model Performance page gained a 5-row RF-vs-NN × sensors-vs-full comparison table with the deployed row highlighted; `/api/performance` also exposes label correlations, both training histories and the sensors-only baseline block.
 - Tested (iteration_4): backend 10/10 pytest, frontend E2E 100% — HIGH scores → Severe Stress, LOW → Healthy, demo → Moderate Stress 70.5%. Testing agent fixed one missing destructuring in Performance().
 
+### 2026-06 (capture UX: photo retake + real audio recording)
+- Extracted `CapturePanel` out of `App.js` into `/app/frontend/src/components/CapturePanel.js`, split into `PhotoCapture` and `AudioCapture`.
+- Photo: after capture (or upload) the button becomes **Retake photo** (`camera-retake-button`) which clears the frame and restarts the live camera; the camera stream is now stopped once a frame is taken.
+- Audio: the old fake 600 ms "recording" is gone. Real `MediaRecorder` flow — idle ("Idle — press record to start", static waveform) → **Record** → live timer + REC badge + animated waveform + **Stop recording** → blob-URL `<audio controls>` preview (`audio-preview`) + **Re-record**. Blob URLs revoked, tracks stopped, timer cleared on unmount.
+- Waveform animation is gated on `.audio-visual.recording`; added `.rec-badge`, `.button.danger`, `.audio-preview`, `.capture-actions` styles; 7-step stepper wraps to 4 columns between 761-900px (fixed the 768px overflow the testing agent found).
+- Tested (iteration_5): frontend 100% on the new capture flows with fake media devices; denied-microphone branch could not be exercised in the harness. Note captured media stays browser-local — it is not uploaded and no facial/speech extraction runs.
+
 ## Prioritized Backlog
 ### P0 — Next tasks
 - (DONE 2026-06) Replace deterministic demo scoring with a validated, versioned model trained on the user's dataset.
