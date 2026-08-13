@@ -53,6 +53,16 @@ Build MINDPULSE AI, an explainable multimodal AI framework for mental-health ass
 - `/api/performance` now serves real held-out test metrics + confusion matrix; frontend badges updated to "Trained model v1.0.0".
 - Tested: iteration_3 — backend 6/6 pass, frontend E2E 100%.
 
+### 2026-06 (Objective 1 rebuilt honestly — no placeholder logic)
+- User decision: train RF + Neural Net on the **real 18 sensor features only** and publish true metrics (option a), PyTorch CPU for the NN, real artifacts on the performance page, and add the spec endpoint names.
+- New `/app/backend/train_objective1.py`: dataset inspection report → preprocessing (dedupe, median impute, train-fitted 1/99 percentile clipping, StandardScaler, stratified **80/10/10**) → RandomForest baseline (400 trees, balanced_subsample) → PyTorch `TabularClassifier` (18→128→ReLU→BN→Dropout→64→ReLU→Dropout→32→ReLU→4 softmax, class-weighted CE, Adam, early stopping on val macro-F1) → evaluation → RandomForestRegressor severity head (Objective 2 groundwork).
+- **Measured held-out (400-sample) test results:** RF accuracy 0.3875 / macro-F1 0.2168; NN accuracy 0.3050 / macro-F1 0.2347 (best macro-F1 → NN is served); majority-class accuracy 0.4073. Severity regressor MAE 8.163, R² -0.013. Honest finding is surfaced verbatim in `/api/performance` and `/api/model-info`.
+- Removed the old heuristic sensor→score encoder and the leaky scores→label classifier (`train_model.py`, old joblibs deleted). D/A/S scores are excluded from model inputs because the label is derived from them.
+- Explainability is now real: per-prediction **occlusion attribution** on the deployed model (feature → train median, measured Δ predicted-class probability) plus modality influence shares.
+- New endpoints: `GET /api/health`, `POST /api/predict`, `GET /api/model-info`, `GET /api/dataset-info`, `GET /api/feature-schema`; legacy `/api/assessments/*` and `/api/performance` kept for the UI.
+- Model artifacts: `/app/backend/models/obj1/` (preprocessor.joblib, random_forest.joblib, neural_net.pt, severity_regressor.joblib, meta.json). torch (CPU) added to requirements.
+- Tested: 9/9 backend pytest (`/app/backend/tests/test_mindpulse_api.py`) + browser E2E assessment → results → performance.
+
 ## Prioritized Backlog
 ### P0 — Next tasks
 - (DONE 2026-06) Replace deterministic demo scoring with a validated, versioned model trained on the user's dataset.
@@ -69,6 +79,6 @@ Build MINDPULSE AI, an explainable multimodal AI framework for mental-health ass
 - Add clinician/researcher annotation workflows for reviewed assessments.
 
 ## Current Scope Notes
-- Classification/regression are REAL trained models (RandomForest v1.0.0) on the user's dataset; stage-1 sensor→score encoding is a calibrated heuristic because the dataset's sensor columns carry no label signal.
+- Classification and severity regression are REAL models trained end-to-end on the dataset's 18 numerical features (v2.0.0-objective1). No heuristics, no leakage, metrics reported as measured (weak, because the dataset's sensor columns carry almost no label signal).
 - Camera/audio capture remain browser-local visual aids (no server-side extraction).
 - No user authentication, external AI provider, or diagnostic workflow is implemented by design.

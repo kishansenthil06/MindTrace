@@ -65,8 +65,14 @@ class AssessmentResponse(BaseModel):
     modalities: Dict[str, Dict[str, Any]]
     feature_attributions: List[Dict[str, Any]]
     insights: List[str]
+    assessment_summary: Optional[str] = None
     model_version: Optional[str] = None
     persistence_status: str = "saved"
+
+
+class PredictInput(BaseModel):
+    """Accepts dataset column names directly; any omitted feature falls back to the train median."""
+    model_config = ConfigDict(extra="allow")
 
 
 def build_analysis(input_data: AssessmentInput) -> Dict[str, Any]:
@@ -80,7 +86,46 @@ def build_analysis(input_data: AssessmentInput) -> Dict[str, Any]:
 
 @api_router.get("/")
 async def root():
-    return {"message": "MINDPULSE AI API online", "mode": "trained-model-v1.0.0"}
+    return {"message": "MINDPULSE AI API online", "mode": ml_service.META["model_version"]}
+
+
+@api_router.get("/health")
+async def health():
+    try:
+        await db.command("ping")
+        database = "connected"
+    except Exception:
+        database = "unavailable"
+    return {
+        "status": "ok",
+        "model_loaded": True,
+        "serving_model": ml_service.SERVING,
+        "model_version": ml_service.META["model_version"],
+        "database": database,
+    }
+
+
+@api_router.post("/predict")
+async def predict(payload: PredictInput):
+    try:
+        return ml_service.predict_response(payload.model_dump())
+    except (ValueError, TypeError, KeyError) as error:
+        raise HTTPException(status_code=422, detail=f"Invalid feature values: {error}")
+
+
+@api_router.get("/model-info")
+async def model_info():
+    return ml_service.model_info()
+
+
+@api_router.get("/dataset-info")
+async def dataset_info():
+    return ml_service.dataset_info()
+
+
+@api_router.get("/feature-schema")
+async def feature_schema():
+    return {"features": ml_service.feature_schema()}
 
 
 @api_router.post("/assessments/analyze", response_model=AssessmentResponse)

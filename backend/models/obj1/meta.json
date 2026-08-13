@@ -1,0 +1,1112 @@
+{
+  "model_version": "2.0.0-objective1",
+  "trained_at": "2026-08-13T06:15:42.945159+00:00",
+  "seed": 42,
+  "features": [
+    "Sleep_Quality",
+    "Social_Engagement",
+    "Daily_App_Usage_Min",
+    "Typing_Speed_WPM",
+    "Session_Frequency",
+    "Idle_Time_Min",
+    "Facial_Emotion_Variance",
+    "Eye_Blink_Rate",
+    "Smile_Intensity",
+    "Head_Motion_Index",
+    "MFCC_Mean",
+    "MFCC_Variance",
+    "Pitch_Mean",
+    "Speech_Rate",
+    "Heart_Rate_BPM",
+    "HRV_Index",
+    "Skin_Temperature",
+    "GSR_Level"
+  ],
+  "feature_groups": {
+    "behavioral": [
+      "Sleep_Quality",
+      "Social_Engagement",
+      "Daily_App_Usage_Min",
+      "Typing_Speed_WPM",
+      "Session_Frequency",
+      "Idle_Time_Min"
+    ],
+    "facial": [
+      "Facial_Emotion_Variance",
+      "Eye_Blink_Rate",
+      "Smile_Intensity",
+      "Head_Motion_Index"
+    ],
+    "acoustic": [
+      "MFCC_Mean",
+      "MFCC_Variance",
+      "Pitch_Mean",
+      "Speech_Rate"
+    ],
+    "physiological": [
+      "Heart_Rate_BPM",
+      "HRV_Index",
+      "Skin_Temperature",
+      "GSR_Level"
+    ]
+  },
+  "label_order": [
+    "Healthy",
+    "Mild_Stress",
+    "Moderate_Stress",
+    "Severe_Stress"
+  ],
+  "serving_model": "neural_network",
+  "primary_metric": "Macro F1",
+  "splits": {
+    "train": 3200,
+    "validation": 400,
+    "test": 400,
+    "ratio": "80/10/10 stratified"
+  },
+  "preprocessing": {
+    "duplicates_removed": 0,
+    "missing_value_strategy": "median imputation (train-fitted) on features; rows without a label dropped",
+    "outlier_handling": "1st/99th percentile clipping with train-fitted bounds",
+    "scaling": "StandardScaler fitted on training split only",
+    "encoding": "no categorical predictors present; target label-encoded for the neural network"
+  },
+  "baseline_random_forest": {
+    "algorithm": "RandomForestClassifier(400 trees, min_samples_leaf=3, balanced_subsample)",
+    "test": {
+      "Accuracy": 0.3875,
+      "Precision": 0.3152,
+      "Recall": 0.3875,
+      "F1-Score": 0.3173,
+      "Macro F1": 0.2168
+    },
+    "validation": {
+      "Accuracy": 0.38,
+      "Precision": 0.3103,
+      "Recall": 0.38,
+      "F1-Score": 0.3161,
+      "Macro F1": 0.2163
+    },
+    "per_class": {
+      "Healthy": {
+        "Precision": 0.4114,
+        "Recall": 0.7546,
+        "F1": 0.5325
+      },
+      "Mild_Stress": {
+        "Precision": 0.3625,
+        "Recall": 0.2358,
+        "F1": 0.2857
+      },
+      "Moderate_Stress": {
+        "Precision": 0.1429,
+        "Recall": 0.0297,
+        "F1": 0.0492
+      },
+      "Severe_Stress": {
+        "Precision": 0.0,
+        "Recall": 0.0,
+        "F1": 0.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        123,
+        29,
+        11,
+        0
+      ],
+      [
+        88,
+        29,
+        6,
+        0
+      ],
+      [
+        78,
+        20,
+        3,
+        0
+      ],
+      [
+        10,
+        2,
+        1,
+        0
+      ]
+    ],
+    "feature_importances": {
+      "Sleep_Quality": 0.02384,
+      "Social_Engagement": 0.02334,
+      "Daily_App_Usage_Min": 0.05796,
+      "Typing_Speed_WPM": 0.05561,
+      "Session_Frequency": 0.04316,
+      "Idle_Time_Min": 0.05939,
+      "Facial_Emotion_Variance": 0.06528,
+      "Eye_Blink_Rate": 0.04665,
+      "Smile_Intensity": 0.0657,
+      "Head_Motion_Index": 0.06036,
+      "MFCC_Mean": 0.05841,
+      "MFCC_Variance": 0.05996,
+      "Pitch_Mean": 0.06188,
+      "Speech_Rate": 0.06244,
+      "Heart_Rate_BPM": 0.05326,
+      "HRV_Index": 0.07117,
+      "Skin_Temperature": 0.06376,
+      "GSR_Level": 0.06782
+    }
+  },
+  "neural_network": {
+    "architecture": "Input(18) \u2192 Dense128 \u2192 ReLU \u2192 BatchNorm \u2192 Dropout(0.3) \u2192 Dense64 \u2192 ReLU \u2192 Dropout(0.3) \u2192 Dense32 \u2192 ReLU \u2192 Dense4 \u2192 Softmax",
+    "optimizer": "Adam(lr=1e-3, weight_decay=1e-4)",
+    "loss": "class-weighted CrossEntropyLoss",
+    "epochs_run": 59,
+    "best_epoch": 34,
+    "test": {
+      "Accuracy": 0.305,
+      "Precision": 0.3332,
+      "Recall": 0.305,
+      "F1-Score": 0.3183,
+      "Macro F1": 0.2347
+    },
+    "validation": {
+      "Accuracy": 0.325,
+      "Precision": 0.3382,
+      "Recall": 0.325,
+      "F1-Score": 0.3314,
+      "Macro F1": 0.2451
+    },
+    "per_class": {
+      "Healthy": {
+        "Precision": 0.4266,
+        "Recall": 0.3742,
+        "F1": 0.3987
+      },
+      "Mild_Stress": {
+        "Precision": 0.3652,
+        "Recall": 0.3415,
+        "F1": 0.3529
+      },
+      "Moderate_Stress": {
+        "Precision": 0.1863,
+        "Recall": 0.1881,
+        "F1": 0.1872
+      },
+      "Severe_Stress": {
+        "Precision": 0.0,
+        "Recall": 0.0,
+        "F1": 0.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        61,
+        42,
+        42,
+        18
+      ],
+      [
+        40,
+        42,
+        34,
+        7
+      ],
+      [
+        38,
+        29,
+        19,
+        15
+      ],
+      [
+        4,
+        2,
+        7,
+        0
+      ]
+    ],
+    "history": {
+      "epoch": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59
+      ],
+      "train_loss": [
+        1.3941,
+        1.3822,
+        1.3731,
+        1.3632,
+        1.3479,
+        1.338,
+        1.3133,
+        1.3051,
+        1.2727,
+        1.2485,
+        1.2514,
+        1.2284,
+        1.2078,
+        1.1838,
+        1.1787,
+        1.1656,
+        1.1549,
+        1.1671,
+        1.1662,
+        1.1255,
+        1.1173,
+        1.1033,
+        1.0819,
+        1.0709,
+        1.0963,
+        1.1003,
+        1.0558,
+        1.0753,
+        1.0811,
+        1.0389,
+        1.0497,
+        1.0368,
+        1.0445,
+        1.03,
+        1.0611,
+        1.0195,
+        1.0068,
+        1.0237,
+        1.0118,
+        1.0215,
+        1.0378,
+        0.9939,
+        1.0215,
+        1.001,
+        1.0193,
+        1.0333,
+        0.9852,
+        0.9752,
+        0.9937,
+        0.9923,
+        0.991,
+        0.9818,
+        0.9438,
+        0.9643,
+        0.9515,
+        0.9729,
+        0.9735,
+        0.9464,
+        0.9654
+      ],
+      "val_loss": [
+        1.3956,
+        1.3943,
+        1.4029,
+        1.4126,
+        1.4275,
+        1.4547,
+        1.5009,
+        1.5481,
+        1.6206,
+        1.6932,
+        1.7383,
+        1.7283,
+        1.8033,
+        1.9163,
+        1.9736,
+        2.0686,
+        2.0867,
+        2.0938,
+        2.0877,
+        2.1774,
+        2.1815,
+        2.3078,
+        2.3232,
+        2.4178,
+        2.374,
+        2.3801,
+        2.4917,
+        2.4682,
+        2.515,
+        2.5735,
+        2.5301,
+        2.5863,
+        2.5866,
+        2.7076,
+        2.7316,
+        2.7693,
+        2.7606,
+        2.8604,
+        2.8071,
+        2.8089,
+        2.8829,
+        2.8121,
+        2.7538,
+        2.7783,
+        2.7703,
+        2.726,
+        2.802,
+        2.9452,
+        3.0008,
+        2.9545,
+        2.9743,
+        2.9793,
+        3.0423,
+        2.9873,
+        3.0473,
+        3.1339,
+        3.0974,
+        3.1972,
+        3.138
+      ],
+      "train_accuracy": [
+        0.2903,
+        0.3016,
+        0.2622,
+        0.3075,
+        0.2775,
+        0.3072,
+        0.2953,
+        0.3059,
+        0.2913,
+        0.3022,
+        0.3184,
+        0.3228,
+        0.32,
+        0.3319,
+        0.34,
+        0.3403,
+        0.3334,
+        0.335,
+        0.3434,
+        0.3534,
+        0.3634,
+        0.3394,
+        0.3541,
+        0.3716,
+        0.3641,
+        0.36,
+        0.3641,
+        0.3678,
+        0.3616,
+        0.3703,
+        0.3844,
+        0.3784,
+        0.3866,
+        0.3663,
+        0.3847,
+        0.3741,
+        0.3891,
+        0.3847,
+        0.3897,
+        0.3856,
+        0.3681,
+        0.3941,
+        0.3875,
+        0.4009,
+        0.3856,
+        0.3916,
+        0.3987,
+        0.3981,
+        0.4025,
+        0.4044,
+        0.4059,
+        0.4084,
+        0.4122,
+        0.3937,
+        0.4091,
+        0.4047,
+        0.3994,
+        0.4078,
+        0.3916
+      ],
+      "val_accuracy": [
+        0.285,
+        0.2875,
+        0.25,
+        0.2325,
+        0.235,
+        0.215,
+        0.26,
+        0.24,
+        0.25,
+        0.22,
+        0.225,
+        0.26,
+        0.24,
+        0.2575,
+        0.24,
+        0.21,
+        0.26,
+        0.2325,
+        0.215,
+        0.2425,
+        0.255,
+        0.26,
+        0.2975,
+        0.3,
+        0.2425,
+        0.2825,
+        0.25,
+        0.2425,
+        0.2925,
+        0.28,
+        0.2575,
+        0.2825,
+        0.265,
+        0.325,
+        0.2625,
+        0.2575,
+        0.2275,
+        0.2425,
+        0.275,
+        0.2775,
+        0.2475,
+        0.2525,
+        0.2475,
+        0.2375,
+        0.2725,
+        0.2375,
+        0.26,
+        0.245,
+        0.2975,
+        0.2275,
+        0.2575,
+        0.2675,
+        0.2625,
+        0.2675,
+        0.2625,
+        0.2875,
+        0.2775,
+        0.28,
+        0.255
+      ]
+    }
+  },
+  "model_comparison": [
+    {
+      "model": "Random Forest (baseline)",
+      "Accuracy": 0.3875,
+      "Precision": 0.3152,
+      "Recall": 0.3875,
+      "F1-Score": 0.3173,
+      "Macro F1": 0.2168
+    },
+    {
+      "model": "Neural Network",
+      "Accuracy": 0.305,
+      "Precision": 0.3332,
+      "Recall": 0.305,
+      "F1-Score": 0.3183,
+      "Macro F1": 0.2347
+    },
+    {
+      "model": "Majority-class baseline",
+      "Accuracy": 0.4073,
+      "Precision": 0.0,
+      "Recall": 0.0,
+      "F1-Score": 0.0,
+      "Macro F1": 0.0
+    }
+  ],
+  "severity_regressor": {
+    "algorithm": "RandomForestRegressor(300 trees) on the same 18 features \u2192 Depression/Anxiety/Stress",
+    "status": "Objective 2 groundwork \u2014 real model, held-out metrics reported as measured",
+    "overall": {
+      "MAE": 8.163,
+      "R\u00b2 Score": -0.0129
+    },
+    "per_target": {
+      "Depression_Score": {
+        "MAE": 8.293,
+        "R\u00b2": -0.0171
+      },
+      "Anxiety_Score": {
+        "MAE": 6.47,
+        "R\u00b2": -0.0032
+      },
+      "Stress_Score": {
+        "MAE": 9.726,
+        "R\u00b2": -0.0186
+      }
+    },
+    "score_ranges": {
+      "Depression_Score": [
+        0.0,
+        34.0
+      ],
+      "Anxiety_Score": [
+        0.0,
+        24.0
+      ],
+      "Stress_Score": [
+        0.0,
+        39.0
+      ]
+    }
+  },
+  "feature_medians": {
+    "Sleep_Quality": 3.0,
+    "Social_Engagement": 3.0,
+    "Daily_App_Usage_Min": 250.0,
+    "Typing_Speed_WPM": 53.0,
+    "Session_Frequency": 10.0,
+    "Idle_Time_Min": 91.0,
+    "Facial_Emotion_Variance": 0.5545,
+    "Eye_Blink_Rate": 22.0,
+    "Smile_Intensity": 0.5,
+    "Head_Motion_Index": 0.4945,
+    "MFCC_Mean": 0.128,
+    "MFCC_Variance": 15.440999999999999,
+    "Pitch_Mean": 192.32999999999998,
+    "Speech_Rate": 4.0,
+    "Heart_Rate_BPM": 87.0,
+    "HRV_Index": 55.02,
+    "Skin_Temperature": 34.49,
+    "GSR_Level": 2.514
+  },
+  "feature_ranges": {
+    "Sleep_Quality": [
+      1.0,
+      5.0
+    ],
+    "Social_Engagement": [
+      1.0,
+      5.0
+    ],
+    "Daily_App_Usage_Min": [
+      30.0,
+      479.0
+    ],
+    "Typing_Speed_WPM": [
+      20.0,
+      89.0
+    ],
+    "Session_Frequency": [
+      1.0,
+      19.0
+    ],
+    "Idle_Time_Min": [
+      5.0,
+      179.0
+    ],
+    "Facial_Emotion_Variance": [
+      0.1,
+      1.0
+    ],
+    "Eye_Blink_Rate": [
+      10.0,
+      34.0
+    ],
+    "Smile_Intensity": [
+      0.0,
+      0.999
+    ],
+    "Head_Motion_Index": [
+      0.0,
+      1.0
+    ],
+    "MFCC_Mean": [
+      -49.991,
+      49.997
+    ],
+    "MFCC_Variance": [
+      1.003,
+      29.999
+    ],
+    "Pitch_Mean": [
+      80.09,
+      299.97
+    ],
+    "Speech_Rate": [
+      2.0,
+      6.0
+    ],
+    "Heart_Rate_BPM": [
+      55.0,
+      119.0
+    ],
+    "HRV_Index": [
+      10.02,
+      99.97
+    ],
+    "Skin_Temperature": [
+      32.0,
+      37.0
+    ],
+    "GSR_Level": [
+      0.101,
+      4.999
+    ]
+  },
+  "clip_bounds": {
+    "Sleep_Quality": [
+      1.0,
+      5.0
+    ],
+    "Social_Engagement": [
+      1.0,
+      5.0
+    ],
+    "Daily_App_Usage_Min": [
+      34.0,
+      475.0
+    ],
+    "Typing_Speed_WPM": [
+      20.0,
+      89.0
+    ],
+    "Session_Frequency": [
+      1.0,
+      19.0
+    ],
+    "Idle_Time_Min": [
+      7.0,
+      178.0
+    ],
+    "Facial_Emotion_Variance": [
+      0.109,
+      0.9900099999999997
+    ],
+    "Eye_Blink_Rate": [
+      10.0,
+      34.0
+    ],
+    "Smile_Intensity": [
+      0.009,
+      0.9890099999999997
+    ],
+    "Head_Motion_Index": [
+      0.01,
+      0.993
+    ],
+    "MFCC_Mean": [
+      -49.033120000000004,
+      49.01611
+    ],
+    "MFCC_Variance": [
+      1.2968899999999999,
+      29.66303
+    ],
+    "Pitch_Mean": [
+      82.00970000000001,
+      297.191
+    ],
+    "Speech_Rate": [
+      2.05,
+      5.96
+    ],
+    "Heart_Rate_BPM": [
+      55.0,
+      119.0
+    ],
+    "HRV_Index": [
+      10.8599,
+      99.16
+    ],
+    "Skin_Temperature": [
+      32.05,
+      36.940099999999994
+    ],
+    "GSR_Level": [
+      0.14296,
+      4.966
+    ]
+  },
+  "dataset_report": {
+    "file": "mental_health_multimodal.csv",
+    "n_samples": 4000,
+    "n_columns": 22,
+    "n_model_features": 18,
+    "columns": [
+      "Depression_Score",
+      "Anxiety_Score",
+      "Stress_Score",
+      "Sleep_Quality",
+      "Social_Engagement",
+      "Daily_App_Usage_Min",
+      "Typing_Speed_WPM",
+      "Session_Frequency",
+      "Idle_Time_Min",
+      "Facial_Emotion_Variance",
+      "Eye_Blink_Rate",
+      "Smile_Intensity",
+      "Head_Motion_Index",
+      "MFCC_Mean",
+      "MFCC_Variance",
+      "Pitch_Mean",
+      "Speech_Rate",
+      "Heart_Rate_BPM",
+      "HRV_Index",
+      "Skin_Temperature",
+      "GSR_Level",
+      "Mental_Health_Status"
+    ],
+    "dtypes": {
+      "Depression_Score": "int64",
+      "Anxiety_Score": "int64",
+      "Stress_Score": "int64",
+      "Sleep_Quality": "int64",
+      "Social_Engagement": "int64",
+      "Daily_App_Usage_Min": "int64",
+      "Typing_Speed_WPM": "int64",
+      "Session_Frequency": "int64",
+      "Idle_Time_Min": "int64",
+      "Facial_Emotion_Variance": "float64",
+      "Eye_Blink_Rate": "int64",
+      "Smile_Intensity": "float64",
+      "Head_Motion_Index": "float64",
+      "MFCC_Mean": "float64",
+      "MFCC_Variance": "float64",
+      "Pitch_Mean": "float64",
+      "Speech_Rate": "float64",
+      "Heart_Rate_BPM": "int64",
+      "HRV_Index": "float64",
+      "Skin_Temperature": "float64",
+      "GSR_Level": "float64",
+      "Mental_Health_Status": "str"
+    },
+    "missing_values": {
+      "Depression_Score": 0,
+      "Anxiety_Score": 0,
+      "Stress_Score": 0,
+      "Sleep_Quality": 0,
+      "Social_Engagement": 0,
+      "Daily_App_Usage_Min": 0,
+      "Typing_Speed_WPM": 0,
+      "Session_Frequency": 0,
+      "Idle_Time_Min": 0,
+      "Facial_Emotion_Variance": 0,
+      "Eye_Blink_Rate": 0,
+      "Smile_Intensity": 0,
+      "Head_Motion_Index": 0,
+      "MFCC_Mean": 0,
+      "MFCC_Variance": 0,
+      "Pitch_Mean": 0,
+      "Speech_Rate": 0,
+      "Heart_Rate_BPM": 0,
+      "HRV_Index": 0,
+      "Skin_Temperature": 0,
+      "GSR_Level": 0,
+      "Mental_Health_Status": 0
+    },
+    "total_missing": 0,
+    "duplicate_rows": 0,
+    "numerical_columns": [
+      "Depression_Score",
+      "Anxiety_Score",
+      "Stress_Score",
+      "Sleep_Quality",
+      "Social_Engagement",
+      "Daily_App_Usage_Min",
+      "Typing_Speed_WPM",
+      "Session_Frequency",
+      "Idle_Time_Min",
+      "Facial_Emotion_Variance",
+      "Eye_Blink_Rate",
+      "Smile_Intensity",
+      "Head_Motion_Index",
+      "MFCC_Mean",
+      "MFCC_Variance",
+      "Pitch_Mean",
+      "Speech_Rate",
+      "Heart_Rate_BPM",
+      "HRV_Index",
+      "Skin_Temperature",
+      "GSR_Level"
+    ],
+    "categorical_columns": [
+      "Mental_Health_Status"
+    ],
+    "categorical_unique_values": {
+      "Mental_Health_Status": [
+        "Healthy",
+        "Mild_Stress",
+        "Moderate_Stress",
+        "Severe_Stress"
+      ]
+    },
+    "class_distribution": {
+      "Healthy": 1629,
+      "Mild_Stress": 1237,
+      "Moderate_Stress": 1006,
+      "Severe_Stress": 128
+    },
+    "class_distribution_pct": {
+      "Healthy": 40.73,
+      "Mild_Stress": 30.93,
+      "Moderate_Stress": 25.15,
+      "Severe_Stress": 3.2
+    },
+    "feature_groups": {
+      "behavioral": [
+        "Sleep_Quality",
+        "Social_Engagement",
+        "Daily_App_Usage_Min",
+        "Typing_Speed_WPM",
+        "Session_Frequency",
+        "Idle_Time_Min"
+      ],
+      "facial": [
+        "Facial_Emotion_Variance",
+        "Eye_Blink_Rate",
+        "Smile_Intensity",
+        "Head_Motion_Index"
+      ],
+      "acoustic": [
+        "MFCC_Mean",
+        "MFCC_Variance",
+        "Pitch_Mean",
+        "Speech_Rate"
+      ],
+      "physiological": [
+        "Heart_Rate_BPM",
+        "HRV_Index",
+        "Skin_Temperature",
+        "GSR_Level"
+      ]
+    },
+    "feature_statistics": {
+      "Sleep_Quality": {
+        "count": 4000.0,
+        "mean": 3.0072,
+        "std": 1.4196,
+        "min": 1.0,
+        "25%": 2.0,
+        "50%": 3.0,
+        "75%": 4.0,
+        "max": 5.0
+      },
+      "Social_Engagement": {
+        "count": 4000.0,
+        "mean": 2.9558,
+        "std": 1.4161,
+        "min": 1.0,
+        "25%": 2.0,
+        "50%": 3.0,
+        "75%": 4.0,
+        "max": 5.0
+      },
+      "Daily_App_Usage_Min": {
+        "count": 4000.0,
+        "mean": 250.7338,
+        "std": 131.324,
+        "min": 30.0,
+        "25%": 134.0,
+        "50%": 248.0,
+        "75%": 366.0,
+        "max": 479.0
+      },
+      "Typing_Speed_WPM": {
+        "count": 4000.0,
+        "mean": 53.662,
+        "std": 20.1141,
+        "min": 20.0,
+        "25%": 36.0,
+        "50%": 53.0,
+        "75%": 71.0,
+        "max": 89.0
+      },
+      "Session_Frequency": {
+        "count": 4000.0,
+        "mean": 10.1335,
+        "std": 5.3981,
+        "min": 1.0,
+        "25%": 5.0,
+        "50%": 10.0,
+        "75%": 15.0,
+        "max": 19.0
+      },
+      "Idle_Time_Min": {
+        "count": 4000.0,
+        "mean": 92.0035,
+        "std": 50.6416,
+        "min": 5.0,
+        "25%": 48.0,
+        "50%": 91.0,
+        "75%": 137.0,
+        "max": 179.0
+      },
+      "Facial_Emotion_Variance": {
+        "count": 4000.0,
+        "mean": 0.5504,
+        "std": 0.2577,
+        "min": 0.1,
+        "25%": 0.332,
+        "50%": 0.553,
+        "75%": 0.774,
+        "max": 1.0
+      },
+      "Eye_Blink_Rate": {
+        "count": 4000.0,
+        "mean": 21.9405,
+        "std": 7.2277,
+        "min": 10.0,
+        "25%": 16.0,
+        "50%": 22.0,
+        "75%": 28.0,
+        "max": 34.0
+      },
+      "Smile_Intensity": {
+        "count": 4000.0,
+        "mean": 0.4987,
+        "std": 0.2894,
+        "min": 0.0,
+        "25%": 0.247,
+        "50%": 0.501,
+        "75%": 0.748,
+        "max": 0.999
+      },
+      "Head_Motion_Index": {
+        "count": 4000.0,
+        "mean": 0.5009,
+        "std": 0.2903,
+        "min": 0.0,
+        "25%": 0.2518,
+        "50%": 0.497,
+        "75%": 0.758,
+        "max": 1.0
+      },
+      "MFCC_Mean": {
+        "count": 4000.0,
+        "mean": -0.4357,
+        "std": 28.9122,
+        "min": -49.991,
+        "25%": -26.014,
+        "50%": -0.878,
+        "75%": 24.9392,
+        "max": 49.997
+      },
+      "MFCC_Variance": {
+        "count": 4000.0,
+        "mean": 15.3979,
+        "std": 8.3718,
+        "min": 1.003,
+        "25%": 8.0855,
+        "50%": 15.407,
+        "75%": 22.619,
+        "max": 29.999
+      },
+      "Pitch_Mean": {
+        "count": 4000.0,
+        "mean": 190.5683,
+        "std": 63.2144,
+        "min": 80.09,
+        "25%": 136.8225,
+        "50%": 191.75,
+        "75%": 244.76,
+        "max": 299.97
+      },
+      "Speech_Rate": {
+        "count": 4000.0,
+        "mean": 4.0147,
+        "std": 1.1533,
+        "min": 2.0,
+        "25%": 3.0275,
+        "50%": 4.02,
+        "75%": 5.02,
+        "max": 6.0
+      },
+      "Heart_Rate_BPM": {
+        "count": 4000.0,
+        "mean": 86.6778,
+        "std": 18.7176,
+        "min": 55.0,
+        "25%": 70.0,
+        "50%": 87.0,
+        "75%": 103.0,
+        "max": 119.0
+      },
+      "HRV_Index": {
+        "count": 4000.0,
+        "mean": 55.4815,
+        "std": 26.315,
+        "min": 10.02,
+        "25%": 32.9275,
+        "50%": 55.07,
+        "75%": 79.1125,
+        "max": 99.97
+      },
+      "Skin_Temperature": {
+        "count": 4000.0,
+        "mean": 34.5053,
+        "std": 1.4462,
+        "min": 32.0,
+        "25%": 33.25,
+        "50%": 34.5,
+        "75%": 35.77,
+        "max": 37.0
+      },
+      "GSR_Level": {
+        "count": 4000.0,
+        "mean": 2.5254,
+        "std": 1.4259,
+        "min": 0.101,
+        "25%": 1.29,
+        "50%": 2.51,
+        "75%": 3.7598,
+        "max": 4.999
+      }
+    },
+    "score_columns": [
+      "Depression_Score",
+      "Anxiety_Score",
+      "Stress_Score"
+    ],
+    "participant_id_column": null,
+    "facial_files_linked": false,
+    "speech_files_linked": false,
+    "modality_note": "The CSV contains no participant identifier and no file-path columns, so the uploaded facial images and any speech recordings cannot be linked to individual rows. Objective 1 is therefore trained on the 18 numerical behavioral/facial/acoustic/physiological features only.",
+    "label_leakage_note": "Depression_Score, Anxiety_Score and Stress_Score are excluded from the model inputs: the Mental_Health_Status label is derived from them, so including them would leak the target."
+  },
+  "honest_finding": "On this dataset the 18 numerical indicators carry very little signal about Mental_Health_Status: the strongest single-feature correlation with the label is below 0.05, so both the Random Forest baseline (macro F1 0.2168) and the neural network (macro F1 0.2347) stay close to the majority-class accuracy of 0.407. The label is instead an almost deterministic function of the Depression/Anxiety/Stress questionnaire scores, which are excluded from the inputs to avoid target leakage. All metrics shown are measured on the held-out 10% test split."
+}
