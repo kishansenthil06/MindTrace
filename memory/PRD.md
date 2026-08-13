@@ -63,6 +63,17 @@ Build MINDPULSE AI, an explainable multimodal AI framework for mental-health ass
 - Model artifacts: `/app/backend/models/obj1/` (preprocessor.joblib, random_forest.joblib, neural_net.pt, severity_regressor.joblib, meta.json). torch (CPU) added to requirements.
 - Tested: 9/9 backend pytest (`/app/backend/tests/test_mindpulse_api.py`) + browser E2E assessment → results → performance.
 
+### 2026-06 (fix: "inaccurate results" — two-variant honest training, v3.0.0)
+- User report: results were inaccurate. Verified RCA on the data: the 18 sensor columns have max |corr| 0.030 with the label (mutual info ≤0.017, identical class means, e.g. Sleep_Quality 2.96/3.05/3.04/2.95); an untuned Gradient Boosting cross-check also got 34%. The label is a function of the three self-report screening scores.
+- User decision (option c): train and serve **both variants** on the same splits; collect the 3 scores via three sliders.
+  - `sensors_only` (18 features): RF acc 0.3875 / macro-F1 0.2168; NN acc 0.3050 / macro-F1 0.2347 — reported as the multimodal baseline.
+  - `full` (21 features = 3 self-report scores + 18 indicators): RF acc 0.8675 / macro-F1 0.8262; **NN acc 0.9500 / macro-F1 0.8927 → deployed**.
+  - Majority-class baseline 0.4073 shown in the comparison for context.
+- Assessment wizard is now 7 steps with a new "Self-report screening" step (depression 0-34, anxiety 0-24, stress 0-39 sliders). Score gauges show the participant's own scores with an explicit source line; the sensors-only regressor is only used when scores are absent.
+- Results/Explainability now include the real AI assessment summary, a "Self-report influence" modality card, occlusion-based attributions over 21 features, and the sensors-only model's counter-prediction in the insights.
+- Model Performance page gained a 5-row RF-vs-NN × sensors-vs-full comparison table with the deployed row highlighted; `/api/performance` also exposes label correlations, both training histories and the sensors-only baseline block.
+- Tested (iteration_4): backend 10/10 pytest, frontend E2E 100% — HIGH scores → Severe Stress, LOW → Healthy, demo → Moderate Stress 70.5%. Testing agent fixed one missing destructuring in Performance().
+
 ## Prioritized Backlog
 ### P0 — Next tasks
 - (DONE 2026-06) Replace deterministic demo scoring with a validated, versioned model trained on the user's dataset.

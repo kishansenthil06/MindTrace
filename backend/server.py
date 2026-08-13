@@ -28,6 +28,9 @@ api_router = APIRouter(prefix="/api")
 class AssessmentInput(BaseModel):
     model_config = ConfigDict(extra="ignore")
 
+    depression_score: float = Field(14, ge=0, le=34)
+    anxiety_score: float = Field(10, ge=0, le=24)
+    stress_score: float = Field(18, ge=0, le=39)
     sleep_quality: float = Field(3, ge=1, le=5)
     social_engagement: float = Field(3, ge=1, le=5)
     daily_app_usage_min: float = Field(180, ge=0, le=1440)
@@ -66,6 +69,8 @@ class AssessmentResponse(BaseModel):
     feature_attributions: List[Dict[str, Any]]
     insights: List[str]
     assessment_summary: Optional[str] = None
+    score_source: Optional[str] = None
+    baseline_comparison: Optional[Dict[str, Any]] = None
     model_version: Optional[str] = None
     persistence_status: str = "saved"
 
@@ -99,7 +104,7 @@ async def health():
     return {
         "status": "ok",
         "model_loaded": True,
-        "serving_model": ml_service.SERVING,
+        "serving_model": f"{ml_service.DEPLOYED_VARIANT}:{ml_service.DEPLOYED_MODEL}",
         "model_version": ml_service.META["model_version"],
         "database": database,
     }
